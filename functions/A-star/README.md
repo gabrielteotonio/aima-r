@@ -39,7 +39,7 @@ Type: Question
 
     Essa função não superestima o custo até a solução pois, no mínimo, todos os números em quadrados errados precisaram mudar de posição. Ou seja, terá uma ação para cada.
 
-- Função de avaliação
+- **Função de avaliação**
 
     Considere a função de avaliação $f(n)$, em que
 

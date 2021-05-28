@@ -77,11 +77,24 @@ action_result <- function(state, action) {
 }
 
 
-heuristic_fun <- function(state) {
+heuristic_fun <- function(state, mode = "manhattan") {
   # Return the heuristic value for a given state
   
   goal <- list(1, 2, 3, 4, 5, 6, 7, 8, 0)
+  distance_man <- 0
   
-  return(length(which(compare.list(state, goal) == FALSE)) - 1)
+  if (mode == "manhattan") {
+    for (i in 1:8) {
+      state_positions <- which(matrix(unlist(estado), byrow = TRUE, 3, 3) == i, arr.ind=TRUE)
+      goal_positions <- which(matrix(unlist(goal), byrow = TRUE, 3, 3) == i, arr.ind=TRUE)
+      
+      distance_man <- distance_man + abs(state_positions[1] - goal_positions[1]) + abs(state_positions[2] - goal_positions[2])
+    }
+  
+    return(distance_man)
+  } else {
+    return(length(which(compare.list(state, goal) == FALSE)) - 1) 
+  }
+  
 }
   
