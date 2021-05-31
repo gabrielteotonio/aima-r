@@ -95,6 +95,16 @@ heuristic_fun <- function(state, mode = "manhattan") {
   } else {
     return(length(which(compare.list(state, goal) == FALSE)) - 1) 
   }
-  
 }
   
+
+lives_in <- function(state, set) {
+  # Return TRUE if the given state lies in set
+  
+  checker <- c()
+  for (i in 1:length(explored_set)) {
+    checker <- append(checker, setequal(state, set[[i]]))
+  }
+  print(checker)
+  return(TRUE %in% checker)
+}
