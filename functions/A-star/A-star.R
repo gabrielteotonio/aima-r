@@ -113,7 +113,7 @@ lives_in <- function(state, set) {
   return(FALSE)
 }
 
-append_ordered <- function(state, set, cost) {
+append_ordered <- function(state, set, cost, action, current_action) {
   
   h_value <- heuristic_fun(state)
   append_position <- which(set$heuristic_value < h_value + cost + 1)
@@ -131,6 +131,10 @@ append_ordered <- function(state, set, cost) {
   
   set$states <- append(set$states, 
                        list(state),
+                       after = append_position)
+  
+  set$action <- append(set$action, 
+                       paste(action, current_action),
                        after = append_position)
   
   return(set)
