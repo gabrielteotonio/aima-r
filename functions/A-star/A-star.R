@@ -114,6 +114,7 @@ lives_in <- function(state, set) {
 }
 
 append_ordered <- function(state, set, cost, action, current_action) {
+  # Add a new state in the frontier ordered
   
   h_value <- heuristic_fun(state)
   append_position <- which(set$heuristic_value < h_value + cost + 1)
@@ -139,4 +140,16 @@ append_ordered <- function(state, set, cost, action, current_action) {
   
   return(set)
   
+}
+
+
+find_index <- function(state, set) {
+  # Return the index of a state in a giver set (if exists)
+  
+  for (i in 1:length(set)) {
+    flag <- (sum(which(compare.list(state, set[[i]]) == FALSE)) == 0)
+    if (flag == TRUE) {
+      return(i)
+    }
+  }
 }

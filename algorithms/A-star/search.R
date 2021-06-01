@@ -49,6 +49,20 @@ A_star_search <- function(initial_state, h = "manhattan") {
                                      cost = cost,
                                      action = action,
                                      current_action = valid_actions[actuator])
+        } else if (lives_in(new_state, frontier$states)) {
+          index_frontier <- find_index(new_state, frontier$states)
+          if (heuristic_fun(new_state) < frontier$heuristic_value[[index_frontier]]) {
+            frontier$states[[index_frontier]] <- NULL
+            frontier$heuristic_value[[index_frontier]] <- NULL
+            frontier$path_cost[[index_frontier]] <- NULL
+            frontier$action[[index_frontier]] <- NULL
+            
+            frontier <- append_ordered(state = new_state, 
+                                       set = frontier, 
+                                       cost = cost,
+                                       action = action,
+                                       current_action = valid_actions[actuator])
+          }
         } 
       } 
     }
