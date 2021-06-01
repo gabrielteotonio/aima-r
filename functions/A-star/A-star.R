@@ -85,7 +85,7 @@ heuristic_fun <- function(state, mode = "manhattan") {
   
   if (mode == "manhattan") {
     for (i in 1:8) {
-      state_positions <- which(matrix(unlist(estado), byrow = TRUE, 3, 3) == i, arr.ind=TRUE)
+      state_positions <- which(matrix(unlist(state), byrow = TRUE, 3, 3) == i, arr.ind=TRUE)
       goal_positions <- which(matrix(unlist(goal), byrow = TRUE, 3, 3) == i, arr.ind=TRUE)
       
       distance_man <- distance_man + abs(state_positions[1] - goal_positions[1]) + abs(state_positions[2] - goal_positions[2])
@@ -99,12 +99,40 @@ heuristic_fun <- function(state, mode = "manhattan") {
   
 
 lives_in <- function(state, set) {
-  # Return TRUE if the given state lies in set
+  # Return TRUE if the given state lies in a  given set
   
-  checker <- c()
-  for (i in 1:length(explored_set)) {
-    checker <- append(checker, setequal(state, set[[i]]))
+  if (length(set) == 0) return(FALSE)
+  
+  for (i in 1:length(set)) {
+    flag <- (sum(which(compare.list(state, set[[i]]) == FALSE)) == 0)
+    if (flag == TRUE) {
+      return(TRUE)
+    }
   }
-  print(checker)
-  return(TRUE %in% checker)
+  
+  return(FALSE)
+}
+
+append_ordered <- function(state, set, cost) {
+  
+  h_value <- heuristic_fun(state)
+  append_position <- which(set$heuristic_value < h_value + cost + 1)
+  if (length(append_position) == 0) {
+    append_position <- 0
+  }
+
+  set$heuristic_value <- append(set$heuristic_value,
+                                h_value + cost + 1,
+                                after = append_position)
+  
+  set$path_cost <- append(set$path_cost,
+                          cost + 1,
+                          after = append_position)
+  
+  set$states <- append(set$states, 
+                       list(state),
+                       after = append_position)
+  
+  return(set)
+  
 }
